@@ -371,6 +371,7 @@ int main(void)
 
           case CHANGE_TX_STATE:
               // LED indicators: GREEN on = TX mode
+//        	  will work on making the comm mode transisition. This is for a git example
               HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
               HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_RESET);
               nrf24_stop_listen();
