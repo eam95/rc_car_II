@@ -522,8 +522,7 @@ uint8_t nrf24_transmit(uint8_t *data, uint8_t size)
 	{
 		nrf24_clear_max_rt();
 		nrf24_flush_tx();
-//		HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
-//		HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
 		return 1;
 	}
 	else
