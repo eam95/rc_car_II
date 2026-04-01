@@ -400,15 +400,24 @@ int main(void)
         		  simple_measurement(&Transmit.distance_cm, 0);
         		  Tset.stamped_time += Tset.milliAdder;
 
-        		  uint16_t len = snprintf((char *)Transmit.cmd, sizeof(Transmit.cmd),
-        		                    "%lu,%u,%ld,%ld,%ld\r\n",
+        		  uint32_t len = snprintf((char *)Transmit.cmd, sizeof(Transmit.cmd),
+        		                    "%lu,%u,%ld,%ld,%ld",
         		                    Tset.stamped_time, Transmit.distance_cm,
         		                    Transmit.a_x, Transmit.a_y, Transmit.a_z);
+        		  // Place \r\n at the last 2 bytes of the 32-byte array
+        		  Transmit.cmd[PLD_S - 2] = '\r';
+        		  Transmit.cmd[PLD_S - 1] = '\n';
 
-                  if (len > 0)
-                  {
-                	  HAL_UART_Transmit(&huart3, (uint8_t *)Transmit.cmd, len, HAL_MAX_DELAY);
-                  }
+        	        // For UART: send only the data + \r\n (not the null padding)
+        	        if (len > 0)
+        	        {
+        	            // Temporarily append \r\n right after the data for UART
+        	            uint8_t uart_buf[PLD_S];
+        	            memcpy(uart_buf, Transmit.cmd, len);
+        	            uart_buf[len]     = '\r';
+        	            uart_buf[len + 1] = '\n';
+        	            HAL_UART_Transmit(&huart3, uart_buf, len + 2, HAL_MAX_DELAY);
+        	        }
         		  nrf24_transmit(Transmit.cmd, PLD_S);
 
         	  }
