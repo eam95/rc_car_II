@@ -404,8 +404,6 @@ int main(void)
         		                    "%lu,%u,%ld,%ld,%ld",
         		                    Tset.stamped_time, Transmit.distance_cm,
         		                    Transmit.a_x, Transmit.a_y, Transmit.a_z);
-        		  // Place \r\n at the last 2 bytes of the 32-byte array
-        		  Transmit.cmd[PLD_S - 2] = '\r';
         		  Transmit.cmd[PLD_S - 1] = '\n';
 
         	        // For UART: send only the data + \r\n (not the null padding)
